@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\favouriteController;
 use App\Http\Controllers\forcastController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,4 @@ Route::get('api/forecast/{location_id}', [forcastController::class, 'fiveDayFore
 Route::get('favourite/add/{id}/{location_id}', [favouriteController::class, 'add']);
 Route::get('favourite/delete/{id}/{location_id}', [favouriteController::class, 'delete']);
 
-Route::get('/{id}/dashboard', [forcastController::class, 'index']);
+Route::get('/dashboard', [forcastController::class, 'index']);

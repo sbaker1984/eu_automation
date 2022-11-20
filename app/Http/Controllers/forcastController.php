@@ -15,21 +15,21 @@ class forcastController extends Controller
     }
 
     public function index($id){
-        $user_id = User::where('id', $id)->first();
+        $user = User::getCurrentUser();
 
         $location = GeoLocation::lookup('8.8.8.8');
         $city = $location->getCity();
 
         $url = '/locations/v1/cities/search?apikey='. env('ACCU_WEATHER_API_KEY') . '=' .$city;
         $locations = file_get_contents($url);
-        $favourites = Favourites::where('user_id', $user_id)->get();
+        $favourites = Favourites::where('user_id', $user->id)->get();
 
         $myFavourites = [];
         foreach($favourites as $favourite){
             $myFavourites = 'http://dataservice.accuweather.com/forecasts/v1/daily/5day/'. $favourite->location;
         }
 
-        return view('user.home')->with('locations', $locations)->with('favourites', $myFavourites);
+        return view('user.home')->with('locations', $locations)->with('favourites', $myFavourites)->with('user', $user);
     }
 
     public function showAll(){
